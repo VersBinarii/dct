@@ -12,6 +12,33 @@
  *
  */
 
+ 
+float **malloc2d(int size){
+    int i;
+    float **mat = malloc(size * sizeof(float *));
+    
+    if(mat != NULL){
+     
+        for(i = 0; i < size; i++){
+           mat[i] = malloc(size * sizeof(*mat[i]));
+           if(mat[i] == NULL){
+              return NULL;
+           }
+        }
+    } else {
+        return NULL;
+    }
+    
+    return mat;
+}
+ 
+
+void free2d(float **m)
+{
+   free(m[0]);
+   free(m);
+}
+
 static float A(int val){
    if(val == 0){
        return 1.0 / sqrt(2.0);

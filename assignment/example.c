@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
 
 void threshold_image(image *img1, image *img2)
 {
-  block_t blk, out_blk;         /* macroblock to be processed */ 
+  block_t blk;         /* macroblock to be processed */ 
   int   width,         /* width of image */
         height,        /* height of image */ 
         x, y,          /* macroblock loop indexes */
@@ -161,10 +161,24 @@ void threshold_image(image *img1, image *img2)
       /* get a macroblock from the input image */
       get_block(img1, x, y, blk);
       
+      float **dct_blk = malloc2d(8);
+      float **idct_blk = malloc2d(8);
+      float **in_blk = malloc2d(8);
 
-      dct(out_blk, blk, 8);
-      idct(out_blk, blk, 8);
-        
+      for(i = 0; i < 8; i++){
+          for(j = 0; j < 8; j++){
+              in_blk[i][j] = blk[i][j];
+          }
+      }
+
+      dct(dct_blk, in_blk, 8);
+      idct(idct_blk, dct_blk, 8);
+       
+      for(i = 0; i < 8; i++){
+          for(j = 0; j < 8; j++){
+              blk[i][j] = idct_blk[i][j];
+          }
+      }
 /*
 *       Scan through the macroblock and threshold
 *       i.e. if pixel < 128 then pixel = 0, else pixel = 255 
