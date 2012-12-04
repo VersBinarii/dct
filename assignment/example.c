@@ -72,9 +72,9 @@ int main(int argc, char *argv[])
         file_out[100]; /* output file name */
 
   /* Process input arguments */
-  if(argc != 3)
+  if(argc != 4)
     {
-      fprintf(stdout,"Usage: example [input PGM file name] [output PGM file name]\n");
+      fprintf(stdout,"Usage: example [input PGM file name] [output PGM file name] [\"Q\" value] \n");
       exit(0);
     }
   else
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
   img_out = clone_image(img_in);
 
   /* Threshold the input image and store the result in the output image */
-  threshold_image(img_in, img_out);
+  do_dct(img_in, img_out, atoi(argv[3]));
 
   /* Now write out the output image */
   printf("Writing out %s\n",file_out);
@@ -103,46 +103,7 @@ int main(int argc, char *argv[])
   return(EXIT_SUCCESS);
 }
 
-/***********************************************************CommentBegin******
- *
- * -- threshold_image -- 
- *
- * Author :             Noel O'Connor	
- *	
- *
- * Created :            02/08/2000
- *	
- *
- * Description :        Thresholds each block in an image and stores 
- *                      the result in another image.
- *		
- * 
- * Arguments in :       image *img1 - pointer to input image data structure
- *                      image *img2 - pointer to output image data structure
- *	                
- *
- * Arguments in/out :	None
- *	
- *
- * Arguments out :	None
- *	
- *
- * Return values :      None
- *
- *
- * Side effects :       None
- *	
- *
- * See also :           main()
- *	
- *
- * Modified :           13/07/2001 - Vivien Chappelier :
- *                        changed to use macroblocks instead of pixels.
- *
- *
- ***********************************************************CommentEnd********/
-
-void threshold_image(image *img1, image *img2)
+void do_dct(image *img1, image *img2, int Q) 
 {
   block_t blk;         /* macroblock to be processed */ 
   int   width,         /* width of image */
@@ -164,6 +125,9 @@ void threshold_image(image *img1, image *img2)
       float **dct_blk = malloc2d(8);
       float **idct_blk = malloc2d(8);
       float **in_blk = malloc2d(8);
+      float **qout = malloc2d(8);
+      float **deqout = malloc2d(8);
+        
 
       for(i = 0; i < 8; i++){
           for(j = 0; j < 8; j++){
@@ -172,27 +136,20 @@ void threshold_image(image *img1, image *img2)
       }
 
       dct(dct_blk, in_blk, 8);
-      idct(idct_blk, dct_blk, 8);
+      
+      quantize(qout, dct_blk, 8, Q);
+
+      dequantize(deqout, qout, 8, Q);
+      
+      idct(idct_blk, deqout, 8);
        
       for(i = 0; i < 8; i++){
           for(j = 0; j < 8; j++){
               blk[i][j] = idct_blk[i][j];
           }
       }
-/*
-*       Scan through the macroblock and threshold
-*       i.e. if pixel < 128 then pixel = 0, else pixel = 255 
-*      for(i = 0; i < 8; i++) {
-*	for(j = 0; j < 8; j++) {
-*
-*	  if(blk[i][j] < 128)
-*	    blk[i][j] = 0;
-*	  else 
-*	    blk[i][j] = 255;
-*	
-*	}
-*      }
-*/
+
+
       /* put the macroblock in the output image */
       put_block(img2, x, y, blk);
     }

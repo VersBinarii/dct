@@ -45,6 +45,6 @@ ee554_lib$(OBJ) : $(INCLUDE)ee554_lib.h $(SRC)ee554_lib.c
 
 # "make clean" compiles everything
 clean:
-	rm -f core $(EXAMPLE_OBJS) $(EXAMPLE2_OBJS) *~ *exe
+	rm -f core $(EXAMPLE_OBJS) $(EXAMPLE2_OBJS) *~ *exe example example2
 
 

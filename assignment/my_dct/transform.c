@@ -103,7 +103,7 @@ void quantize(float **fq_mx, float **f_mx, int size, int Q){
         for(j = 0; j < size; j++){
             fq_mx[i][j] = 0.0;
 
-            fq_mx[i][j] = f_mx[i][j] / Q;
+            fq_mx[i][j] = (int)f_mx[i][j] / Q;
         }
     }
 }
@@ -116,7 +116,7 @@ void dequantize(float **f_hat_mx, float **fq_mx, int size, int Q){
         for(j = 0; j < size; j++){
             f_hat_mx[i][j] = 0.0;
 
-            f_hat_mx[i][j] = fq_mx[i][j] * Q;
+            f_hat_mx[i][j] = (int)fq_mx[i][j] * Q;
         }
     }
 }

@@ -4,6 +4,6 @@
 #include "ee554.h"
 
 /* function prototypes */
-void threshold_image(image *,image *);
+void do_dct(image *,image *, int);
 
 #endif
