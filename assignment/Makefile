@@ -16,24 +16,30 @@ EXE =
 OBJ = .o 
 
 # List all the object files to be linked here
-EXAMPLE_OBJS = example$(OBJ) ee554$(OBJ) ee554_lib$(OBJ) transform$(OBJ)
-EXAMPLE2_OBJS = example2$(OBJ) ee554$(OBJ) ee554_lib$(OBJ)
+#EXAMPLE_OBJS = example$(OBJ) ee554$(OBJ) ee554_lib$(OBJ) transform$(OBJ)
+#EXAMPLE2_OBJS = example2$(OBJ) ee554$(OBJ) ee554_lib$(OBJ)
+ASSIGNMENT = assignment$(OBJ) ee554$(OBJ) ee554_lib$(OBJ) transform$(OBJ)
 
 # Tell make how to produce the executable from the object files
-all: example$(EXE) example2$(EXE)
+#all: example$(EXE) example2$(EXE) assignment
+all: 	assignment
 
-example$(EXE) : $(EXAMPLE_OBJS)
-	$(CC) $(LINKFLAGS) -o example$(EXE) $(EXAMPLE_OBJS) $(LIBS)
+#example$(EXE) : $(EXAMPLE_OBJS)
+#	$(CC) $(LINKFLAGS) -o example$(EXE) $(EXAMPLE_OBJS) $(LIBS)
 
-example2$(EXE) : $(EXAMPLE2_OBJS)
-	$(CC) $(LINKFLAGS) -o example2$(EXE) $(EXAMPLE2_OBJS) $(LIBS)
+#example2$(EXE) : $(EXAMPLE2_OBJS)
+#	$(CC) $(LINKFLAGS) -o example2$(EXE) $(EXAMPLE2_OBJS) $(LIBS)
+
+assignment	:	$(ASSIGNMENT)
+	$(CC) $(LINKFLAGS) -o assignment$(EXE) $(ASSIGNMENT) $(LIBS)
+
 
 # The dependencies list for the object files
-example$(OBJ) : $(INCLUDE)ee554.h $(INCLUDE)ee554_lib.h $(SRC)example.c
-		$(CC) $(CFLAGS) $(SRC)example.c
+#example$(OBJ) : $(INCLUDE)ee554.h $(INCLUDE)ee554_lib.h $(SRC)example.c
+#		$(CC) $(CFLAGS) $(SRC)example.c
 
-example2$(OBJ) : $(INCLUDE)ee554.h $(INCLUDE)ee554_lib.h $(SRC)example2.c
-		$(CC) $(CFLAGS) $(SRC)example2.c
+#example2$(OBJ) : $(INCLUDE)ee554.h $(INCLUDE)ee554_lib.h $(SRC)example2.c
+#		$(CC) $(CFLAGS) $(SRC)example2.c
 
 ee554$(OBJ) : $(INCLUDE)ee554.h $(INCLUDE)ee554_lib.h $(SRC)ee554.c
 		$(CC) $(CFLAGS) $(SRC)ee554.c
@@ -45,6 +51,6 @@ ee554_lib$(OBJ) : $(INCLUDE)ee554_lib.h $(SRC)ee554_lib.c
 
 # "make clean" compiles everything
 clean:
-	rm -f core $(EXAMPLE_OBJS) $(EXAMPLE2_OBJS) *~ *exe example example2
+	rm -f core $(EXAMPLE_OBJS) $(EXAMPLE2_OBJS) $(ASSIGNMENT) *~ *exe example example2 assignment
 
 

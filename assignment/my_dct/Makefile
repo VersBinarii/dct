@@ -4,11 +4,11 @@ CFLAGS=-g -Wall
  
 LDLIBS=-lm
 
-all: maintest
+all: dct_test
  
-maintest: transform.o
+dct_test: transform.o
 
 clean:
 	rm -f *.o
-	rm -f maintest
+	rm -f dct_test
 	rm -f *.csv

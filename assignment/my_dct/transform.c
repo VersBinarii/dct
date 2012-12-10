@@ -12,7 +12,6 @@
  *
  */
 
- 
 float **malloc2d(int size){
     int i;
     float **mat = malloc(size * sizeof(float *));
@@ -33,10 +32,15 @@ float **malloc2d(int size){
 }
  
 
-void free2d(float **m)
+void free_mat2d(float **mat, int size)
 {
-   free(m[0]);
-   free(m);
+    int i;
+
+    for(i = 0; i < size; i++){
+        free(mat[i]);
+    }
+
+    free(mat);
 }
 
 static float A(int val){
