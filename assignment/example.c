@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 
   /* Load the input image */
   img_in = pgm_load_image(file_in);
-  
+  /*lvhuichao debug*/
   /* Make a clone of it to store the result */
   img_out = clone_image(img_in);
 
